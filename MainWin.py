@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtWidgets import QWidget, QMainWindow, QPushButton, QHBoxLayout
+from PyQt5.QtWidgets import *
 from CountryDrawer import CountryDrawerWidget
 from Country import CountryProvider
 
@@ -7,23 +7,39 @@ class DominMainWin(QMainWindow):
     def __init__(self):
         super(DominMainWin, self).__init__()
 
-        self.cp = CountryProvider()
+        self._cp = CountryProvider()
+        self._selcountrybox = QComboBox( self )
            
-        drawer = CountryDrawerWidget( self )
-        drawer.show()
-        drawer.setPolygons( self.cp.getPolygon("RANDOM") )
-        drawer.fitToScreen( 400.0, 400.0 )
-
+        self._drawer = CountryDrawerWidget( self )
+        self._drawer.show()
+        
+        self.addFields()
+        self.onSelCountryChanged()
+        
+    def addFields(self):
+        selcountrylbl = QLabel( "Select country", self )
+        selcountrylbl.resize( 100, 30 )
+        selcountrylbl.move( 20, 470 )
+        
+        self._selcountrybox.resize( 200, 30 )
+        self._selcountrybox.move( 100, 470 )
+        self._selcountrybox.addItems( self._cp.getAllNames() )
+        self._selcountrybox.currentIndexChanged.connect(self.onSelCountryChanged)
+        
         quitbut = QPushButton("Exit",self)
         quitbut.resize(100,30)
-        quitbut.move( 400, 470 )
+        quitbut.move( 380, 470 )
         quitbut.show()
-        quitbut.clicked.connect( self.on_exit )
+        quitbut.clicked.connect( self.onExit )
 
-        cntry_name = self.cp.getSelName()
-        self.setWindowTitle( cntry_name )
+    def onSelCountryChanged(self):
+        name = self._selcountrybox.currentText()
+        self.setWindowTitle( name )
+        self._drawer.setPolygons( self._cp.getPolygon( name) )
+        self._drawer.fitToScreen( 400.0, 400.0 )
+        self._drawer.update()
 
-    def on_exit(self):
+    def onExit(self):
          print("Program exited")
          self.close()
         

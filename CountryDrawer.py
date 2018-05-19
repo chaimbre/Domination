@@ -22,8 +22,10 @@ class CountryDrawerWidget(QWidget):
     def setPolygons( self, polys ):
         self.polygons = []
         polygon = QtGui.QPolygonF()
+        polsizes =[]
+        self.xmin = self.ymin =  1e10
+        self.xmax = self.ymax = -1e10
         for pol in polys:
-            #if len(pol.exterior.coords) < 10: continue
             for lon, lat in pol.exterior.coords:
                 y, x, z = self.LLH_to_ECEF(lat, lon, 0)
                 self.xmax = max( self.xmax, x )
@@ -32,8 +34,9 @@ class CountryDrawerWidget(QWidget):
                 self.ymin = min( self.ymin, y )
                 polygon.append ( QtCore.QPoint( x, y ) )
             self.polygons.append( polygon )
-            print( polygon.size() )
+            polsizes.append( polygon.size() )
             polygon = QtGui.QPolygonF()
+        print( "Size of polygons to draw ", *polsizes, sep='/' )    
 
     def paintEvent(self, event):
         if not self.polygons: return 
