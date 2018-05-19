@@ -11,7 +11,7 @@ class DominMainWin(QMainWindow):
            
         drawer = CountryDrawerWidget( self )
         drawer.show()
-        drawer.setPolygons( self.cp.getPolygon( "France" ) )#"RANDOM" ) )
+        drawer.setPolygons( self.cp.getPolygon("RANDOM") )
         drawer.fitToScreen( 400.0, 400.0 )
 
         quitbut = QPushButton("Exit",self)

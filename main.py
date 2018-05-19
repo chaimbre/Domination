@@ -1,4 +1,3 @@
-
 import sys
 from MainWin import DominMainWin 
 from PyQt5.QtWidgets import QApplication
