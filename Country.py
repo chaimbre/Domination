@@ -1,6 +1,5 @@
 import geopandas as gpd
 import numpy as np
-import random
 import shapely
 
 python_rep = "C:/Prog/Domination/"
@@ -24,18 +23,8 @@ class CountryProvider:
             yield from [polygon] if polygon.geom_type == 'Polygon' else polygon
            
     def getPolygon(self, country_name="RANDOM"):
-        if country_name == "RANDOM":
-            country_name = self.genRandomName()
-        self._sel_name = country_name    
         country = self.handle[self.handle.NAME == country_name]
         return self.extractPolygons( country.geometry )
 
     def getAllNames(self):
         return list(self.handle.NAME)
-    
-    def genRandomName(self):
-        return random.choice(self.getAllNames())
-
-    def getSelName(self):
-        return self._sel_name     
-        

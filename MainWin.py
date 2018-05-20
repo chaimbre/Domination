@@ -2,6 +2,7 @@ from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import *
 from CountryDrawer import CountryDrawerWidget
 from Country import CountryProvider
+import random
 
 class DominMainWin(QMainWindow):
     def __init__(self):
@@ -24,7 +25,9 @@ class DominMainWin(QMainWindow):
         
         self._selcountrybox.resize( 200, 30 )
         self._selcountrybox.move( 100, 470 )
-        self._selcountrybox.addItems( self._cp.getAllNames() )
+        countrynames = self._cp.getAllNames()
+        self._selcountrybox.addItems( countrynames )
+        self._selcountrybox.setCurrentText( random.choice(countrynames) )
         self._selcountrybox.currentIndexChanged.connect(self.onSelCountryChanged)
         
         quitbut = QPushButton("Exit",self)
