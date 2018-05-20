@@ -11,6 +11,7 @@ class DominMainWin(QMainWindow):
         self._selcountrybox = QComboBox( self )
            
         self._drawer = CountryDrawerWidget( self )
+        self._drawer.resize( 400.0, 400.0 )
         self._drawer.show()
         
         self.addFields()
@@ -36,7 +37,6 @@ class DominMainWin(QMainWindow):
         name = self._selcountrybox.currentText()
         self.setWindowTitle( name )
         self._drawer.setPolygons( self._cp.getPolygon( name) )
-        self._drawer.fitToScreen( 400.0, 400.0 )
         self._drawer.update()
 
     def onExit(self):
